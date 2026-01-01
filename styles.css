@@ -1,0 +1,407 @@
+/* styles.css - Sistema de Ideas y Problemas */
+
+body {
+    background: linear-gradient(135deg, #619feb, #00cdd9, #55cf1b) !important;
+    background-attachment: fixed !important;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+}
+
+/* === WORD BUBBLES MEJORADAS === */
+.word-bubble {
+  margin: 8px;
+  padding: 20px 24px; /* Increased vertical padding (was 16px) */
+  border-radius: 50px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 150px; /* Reduced min-width (was 230px) */
+  max-width: 290px; /* Adjusted max-width */
+  min-height: auto;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  /* animation: fadeIn 0.4s ease-out; REMOVED */
+  transform: scale(var(--base-scale, 1));
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.word-bubble:hover {
+  transform: scale(calc(var(--base-scale, 1) * 1.15)) translateY(-4px);
+  z-index: 10;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* === RESPONSIVE DESIGN PARA MÓVIL === */
+
+/* Tablets (pantallas medianas) */
+@media (max-width: 768px) {
+  .word-bubble {
+    margin: 6px;
+    padding: 16px 20px; /* Reducir padding */
+    min-width: 130px; /* Más compacto */
+    max-width: 250px;
+    font-size: 0.95rem; /* Texto ligeramente más pequeño */
+  }
+
+  .word-bubble:hover {
+    transform: scale(calc(var(--base-scale, 1) * 1.1)) translateY(-3px); /* Hover más sutil */
+  }
+}
+
+/* Móviles (pantallas pequeñas) */
+@media (max-width: 480px) {
+  .word-bubble {
+    margin: 5px;
+    padding: 14px 18px; /* Más compacto */
+    min-width: 110px; /* Más pequeño para móvil */
+    max-width: 200px;
+    font-size: 0.9rem; /* Texto más pequeño */
+    border-radius: 40px; /* Radio más pequeño */
+  }
+
+  .word-bubble:hover {
+    transform: scale(calc(var(--base-scale, 1) * 1.08)) translateY(-2px); /* Hover muy sutil */
+  }
+
+  /* Badge "Tuya/Tuyo" más pequeño en móvil */
+  .word-bubble .text-xs {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+  }
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-out;
+}
+
+.modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal.active > div {
+  animation: modalSlideUp 0.3s ease-out;
+}
+
+.tab-active {
+  background: linear-gradient(to right, #619feb, #00cdd9, #55cf1b);
+  color: white;
+}
+
+/* === UTILITY CLASSES === */
+.hidden {
+  display: none !important;
+}
+
+/* === TOAST NOTIFICATIONS === */
+.toast {
+  min-width: 300px;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.3s ease-out;
+  animation: slideIn 0.3s ease-out;
+}
+
+.toast-success {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+.toast-error {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+.toast-info {
+  background: linear-gradient(135deg, #619feb, #00cdd9, #55cf1b); /* Updated to new gradient */
+  color: white;
+}
+
+/* === LOADING SPINNER === */
+.loading-spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+/* === BUTTON HOVER EFFECTS === */
+button {
+  transition: all 0.2s ease-out;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* === CONTENT AREA === */
+#contentArea {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  padding: 20px;
+  transition: opacity 0.3s ease;
+}
+
+/* === FILTROS === */
+#searchInput,
+#categoryFilter {
+  min-width: 200px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+#searchInput:focus,
+#categoryFilter:focus {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 174, 239, 0.2);
+}
+
+/* === RESULT COUNT === */
+#resultCount {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 16px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
+
+/* === EMPTY STATE === */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+/* === SKELETON LOADER === */
+.skeleton-bubble {
+  width: 200px;
+  height: 120px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 24px;
+  margin: 12px;
+}
+
+/* === ANIMACIONES === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heartBeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.2);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes modalSlideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.support-animation {
+  animation: heartBeat 0.5s ease;
+}
+
+/* === ACCESIBILIDAD === */
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 3px solid rgba(0, 174, 239, 0.5);
+  outline-offset: 2px;
+}
+
+[title] {
+  cursor: help;
+  position: relative;
+}
+
+/* === RESPONSIVE MEJORADO === */
+
+/* Tablets y pantallas medianas (hasta 768px) */
+@media (max-width: 768px) {
+  /* Header y navegación */
+  header h1 {
+    font-size: 1.5rem;
+  }
+  
+  /* Tabs más compactos */
+  .tab-button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+  
+  /* Búsqueda y filtros en columna */
+  #searchInput,
+  #categoryFilter {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  /* Área de contenido */
+  #contentArea {
+    gap: 12px;
+    padding: 12px;
+  }
+  
+  /* Botones más compactos */
+  button {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Móviles pequeños (hasta 480px) */
+@media (max-width: 480px) {
+  /* Header */
+  header {
+    padding: 12px;
+  }
+  
+  header h1 {
+    font-size: 1.25rem;
+  }
+  
+  /* Tabs apilados verticalmente si es necesario */
+  .tab-button {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+  
+  /* Área de contenido más compacta */
+  #contentArea {
+    gap: 8px;
+    padding: 8px;
+  }
+  
+  /* Botones más pequeños */
+  button {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Modales en móvil (hasta 640px) */
+@media (max-width: 640px) {
+  .modal > div {
+    max-width: 95%;
+    max-height: 95vh;
+    overflow-y: auto;
+    margin: 10px;
+  }
+
+  .modal h2 {
+    font-size: 1.5rem;
+  }
+
+  /* Inputs más grandes para móvil (evita zoom en iOS) */
+  .modal input,
+  .modal textarea,
+  .modal select {
+    font-size: 16px;
+  }
+  
+  /* Botones de modal en columna */
+  .modal .flex {
+    flex-direction: column;
+  }
+  
+  .modal button {
+    width: 100%;
+  }
+}
+
