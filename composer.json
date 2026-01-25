@@ -1,0 +1,20 @@
+{
+    "name": "esn/esn-proposals",
+    "description": "Management system for proposals.",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "ESN\\Proposals\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "esnmalaga"
+        }
+    ],
+    "require": {
+      "ext-json": "*",
+      "ext-pdo": "*"
+    }
+}
