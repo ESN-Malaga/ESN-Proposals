@@ -3,23 +3,28 @@ declare(strict_types=1);
 
 define('BASE_PATH', dirname(__DIR__, 2));
 
-require_once BASE_PATH . '/src/Database.php';
-require_once BASE_PATH . '/src/Core/Response.php';
-require_once BASE_PATH . '/src/Core/Router.php';
-require_once BASE_PATH . '/src/Controllers/HealthController.php';
+require_once BASE_PATH . '/vendor/autoload.php';
 
+use ESN\Proposals\Core\HttpException;
+use ESN\Proposals\Core\Response;
 
+$container = require BASE_PATH . '/src/Bootstrap/bootstrap.php';
+$router = $container->get('router');
 
-$conn = \App\Database::conn();
-$router = new \App\Core\Router($conn);
+require BASE_PATH . '/src/Routes/api.php';
 
-require_once BASE_PATH . '/routes/api.php';
+$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+$path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 
-$method = $_SERVER['REQUEST_METHOD'];
-$path   = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-try {    
+try {
     $router->dispatch($method, $path);
-} finally {
-    $conn->close();
+} catch (HttpException $e) {
+    Response::error(
+        $e->getMessage(),
+        $e->getCode(),
+        $e->getMessage(),
+        $e->getTrace()
+    );
+} catch (Throwable $e) {
+    Response::error('Internal Server Error');
 }
