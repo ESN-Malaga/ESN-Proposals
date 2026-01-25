@@ -16,11 +16,11 @@ services:
     image: mysql:8.0
     env_file:
       - .env
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:3306"
     volumes:
       - dbdata:/var/lib/mysql
+      - ./database/init:/docker-entrypoint-initdb.d:ro
 
 volumes:
   dbdata:

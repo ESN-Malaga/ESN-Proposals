@@ -1,7 +1,7 @@
 FROM php:8.2-apache
 
 # Extensiones que usas (mysqli)
-RUN docker-php-ext-install mysqli
+RUN docker-php-ext-install pdo_mysql
 
 # Opcional (por si luego usas rewrite)
 RUN a2enmod rewrite
